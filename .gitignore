@@ -1,0 +1,26 @@
+# Data files
+data/criteo-uplift-v2.1.csv
+data/*.parquet
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+
+# Virtual environments
+.venv/
+env/
+
+# Docker
+*.log
+
+# AWS / secrets
+.env
+.aws/
