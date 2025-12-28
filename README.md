@@ -10,13 +10,34 @@ This repository focuses on both:
 
 ---
 
-## What is Uplift Modeling (in one line)
+## README Index
+
+1. What is Uplift Modeling (in one line)
+2. Why Uplift Modeling?
+3. Repository Structure
+4. Dataset
+5. Modeling Approach
+   1. Baseline: T-Learner
+   2. Evaluation
+6. Deployment Architecture
+7. Live Endpoint
+8. API Contract
+   1. Request
+   2. Response
+9. Quick Test CURL
+10. API Testing (Postman)
+11. End-to-End Flow: From Notebook to API
+12. Final End-to-End Flow
+
+---
+
+## 1. What is Uplift Modeling (in one line)
 Classification predicts **who will convert**.  
 Uplift predicts **who will convert *because* of the treatment**.
 
 ---
 
-## Why Uplift Modeling?
+## 2. Why Uplift Modeling?
 
 In many real-world scenarios (ads, coupons, notifications), applying a treatment to everyone is wasteful or even harmful.
 
@@ -33,7 +54,7 @@ In this project, uplift modeling is used to decide **who should receive a treatm
 
 ---
 
-## Repository Structure
+## 3. Repository Structure
 
 ```text
 ml-uplift-modeling-criteo/
@@ -68,7 +89,7 @@ ml-uplift-modeling-criteo/
 
 ---
 
-## Dataset
+## 4. Dataset
 Using the Criteo uplift dataset (features are anonymized):
 - Features: `f0 ... f11`
 - Treatment: `treatment` (0/1)
@@ -78,8 +99,8 @@ Using the Criteo uplift dataset (features are anonymized):
 
 ---
 
-## Modeling Approach
-### Baseline: T-Learner
+## 5. Modeling Approach
+### 5.1 Baseline: T-Learner
 Train two models:
 - **Treated model** learns: `P(Y=1 | X, T=1)`
 - **Control model** learns: `P(Y=1 | X, T=0)`
@@ -89,12 +110,12 @@ Inference:
 - `p_control = model_control.predict_proba(X)`
 - `uplift = p_treated - p_control`
 
-### Evaluation
+### 5.2 Evaluation
 Evaluated using uplift metrics (e.g., Qini / AUUC) to measure whether ranking users by predicted uplift improves realized lift.
 
----
+--
 
-## Deployment Architecture
+## 6. Deployment Architecture
 **Train → Export → Deploy → Serve**
 1. Train uplift model locally / in notebooks
 2. Export bundle to `models/uplift_tlearner_bundle.joblib`
@@ -105,16 +126,16 @@ Evaluated using uplift metrics (e.g., Qini / AUUC) to measure whether ranking us
 
 ---
 
-## Live Endpoint
+## 7. Live Endpoint
 API Gateway (stage):
 - Base: `https://b0t5ntje2g.execute-api.eu-north-1.amazonaws.com/prod`
 - Predict: `POST https://b0t5ntje2g.execute-api.eu-north-1.amazonaws.com/prod/predict`
 
 ---
 
-## API Contract
+## 8. API Contract
 
-### Request
+### 8.1 Request
 Send a JSON body with `instances` (list of feature dictionaries):
 
 ```json
@@ -131,7 +152,7 @@ Send a JSON body with `instances` (list of feature dictionaries):
 
 ---
 
-### Response
+### 8.2 Response
 
 ```json
 {
@@ -145,7 +166,7 @@ Send a JSON body with `instances` (list of feature dictionaries):
 
 ---
 
-## Quick Test CURL
+## 9. Quick Test CURL
 
 ```json
 curl -s -X POST "https://b0t5ntje2g.execute-api.eu-north-1.amazonaws.com/prod/predict" \
@@ -159,7 +180,7 @@ curl -s -X POST "https://b0t5ntje2g.execute-api.eu-north-1.amazonaws.com/prod/pr
 
 ---
 
-## API Testing (Postman)
+## 10. API Testing (Postman)
 
 The deployed uplift model API can be tested using Postman.
 
@@ -176,7 +197,7 @@ This allows easy validation and experimentation without writing client code.
 
 ---
 
-## End-to-End Flow: From Notebook to API
+## 11. End-to-End Flow: From Notebook to API
 
 This project follows a complete machine learning lifecycle:
 
@@ -214,7 +235,7 @@ This flow ensures that the model is not only accurate, but also **deployable, te
 
 ---
 
-## Final End-to-End Flow
+## 12. Final End-to-End Flow
 
 Jupyter Notebook  →  Model Training & Evaluation  →  Model Export  →  Docker Container Build  →  Amazon ECR  →  AWS Lambda  →  API Gateway  →  Postman / Client Applications
 
