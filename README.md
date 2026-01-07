@@ -1,4 +1,4 @@
-# Estimating Individual Treatment Effects Using Uplift Modeling
+# Uplift Modeling for Individual Treatment Effects 
 
 This project demonstrates an **end-to-end uplift modeling system**, from causal machine learning in Jupyter notebooks to a **production-style serverless inference API** deployed on AWS using **Lambda container images** and **API Gateway**.
 
